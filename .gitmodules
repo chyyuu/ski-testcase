@@ -1,3 +1,6 @@
 [submodule "fsstress"]
 	path = fsstress
 	url = https://github.com/ganboing/ski-fsstress.git
+[submodule "uselib"]
+	path = uselib
+	url = https://github.com/ganboing/ski-uselib.git
