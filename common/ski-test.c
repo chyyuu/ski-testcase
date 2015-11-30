@@ -239,7 +239,11 @@ int ski_test_start(int current_cpu, int total_cpus, int dry_run){
 
 	CPU_ZERO(&cpuset_process);
 	CPU_SET(current_cpu, &cpuset_process);
+#if __GLIBC_PREREQ(2, 4)
+	ret = sched_setaffinity(0,sizeof(cpuset_process),&cpuset_process);
+#else
 	ret = sched_setaffinity(0,&cpuset_process);
+#endif
 	if (ret) {
 		shared_printf("SKI: Error: Failed to set up the affinity for thread %d!\n", current_cpu);
 		exit(1);
