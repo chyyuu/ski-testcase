@@ -29,8 +29,11 @@ extern int STD_SKI_SOFT_EXIT_BARRIER;
 
 //int with_soft_exit_barrier = 0;
 int with_barriers = 1;
+int with_info = 1;
 int with_stack_prefault = 1;
+int with_mlock_prefault = 0;
 int with_fork = 1;
+int mlock_parametrs = MCL_CURRENT| MCL_FUTURE;
 int max_instructions = 1;  // Can be overwritten at the command line
 
 barrier_t *usermode_barrier;
@@ -197,6 +200,35 @@ int ski_test_start(int current_cpu, int total_cpus, int dry_run){
 		ret  = ski_thread_start(current_cpu, total_cpus, dry_run);
 		return ret;
 	}
+
+/*    shared_printf_init(current_cpu);
+*/
+
+/*
+    if(with_barriers){
+        usermode_barrier = shared_malloc(sizeof(barrier_t), "SKI_barrier", current_cpu);
+        if(current_cpu == 0){
+			barrier_init(usermode_barrier, total_cpus);
+		}
+    }
+*/
+    if(with_mlock_prefault){
+        if(mlockall(mlock_parametrs) == -1) {
+            perror("SKI: mlockall failed");
+            exit(-2);
+        }
+    }
+
+/*	XXX: What was this for???
+    if(signal(SIGINT, sig_handler)== SIG_ERR){
+        perror("SKI: Signal SIGINT error");
+        exit(1);
+    }
+    if(signal(SIGSEGV , sig_handler) == SIG_ERR){
+        perror("SKI: Signal SIGINT error");
+        exit(1);
+    }
+*/
 
 	// Avoid having unflushed disk before the test begins...
 	// XXX: but this could potentially interfere with tests

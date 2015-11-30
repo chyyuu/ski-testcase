@@ -1,0 +1,3 @@
+[submodule "fsstress"]
+	path = fsstress
+	url = https://github.com/ganboing/ski-fsstress.git
