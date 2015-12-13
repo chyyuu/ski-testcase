@@ -4,3 +4,6 @@
 [submodule "uselib"]
 	path = uselib
 	url = https://github.com/ganboing/ski-uselib.git
+[submodule "msync-cheng"]
+	path = msync-cheng
+	url = https://github.com/ganboing/uselib-msync-exploit.git
